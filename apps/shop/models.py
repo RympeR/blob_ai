@@ -111,3 +111,17 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
+
+
+class PromptLike(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='prompt_likes')
+    receiver = models.ForeignKey(Prompt, on_delete=models.CASCADE, related_name='prompt_liked_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.sender.username} likes {self.receiver.name}'
+
+    class Meta:
+        verbose_name = 'Лайк'
+        verbose_name_plural = 'Лайки'
+        unique_together = ('sender', 'receiver')

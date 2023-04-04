@@ -23,5 +23,5 @@ COPY configs/supervisor.conf /etc/supervisor/conf.d/
 
 EXPOSE 80
 #enable at production
-#CMD ["sh", "-c", "daphne -b 0.0.0.0 -p 8000 prompt_mkt.asgi:application & nginx -g 'daemon off;'"]
+#CMD ["sh", "-c", "daphne -b 0.0.0.0 -p 8000 blob.asgi:application & nginx -g 'daemon off;'"]
 CMD ["hupper", "-m", "manage"]

@@ -1,14 +1,12 @@
+import threading
+
+from django.core.mail import EmailMessage
 from django.db.models import Model, Q, QuerySet
-from django_filters import rest_framework as filters
+from django.template.loader import get_template
 from dynamic_preferences.registries import global_preferences_registry
 from dynamic_preferences.settings import preferences_settings
 from dynamic_preferences.types import BasePreferenceType
 from rest_framework.serializers import ModelSerializer
-from django.core.mail import EmailMessage
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-
-import threading
 
 
 class EmailThread(threading.Thread):
@@ -44,7 +42,8 @@ class Util:
         EmailThread(email).start()
 
 
-def filter_related_objects(queryset: QuerySet, name: str, value, model: Model, serializer: ModelSerializer, related_category: str) -> QuerySet:
+def filter_related_objects(queryset: QuerySet, name: str, value, model: Model, serializer: ModelSerializer,
+                           related_category: str) -> QuerySet:
     lookup = '__'.join([name, 'in'])
     res = []
     if value:

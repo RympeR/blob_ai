@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import ModelCategory, Tag, Attachment, Rating, Prompt, Category, Order
+from .models import ModelCategory, Tag, Attachment, Rating, Prompt, Category, Order, PromptLike
 from ..users.models import User
-from prompt_mkt.utils.customFields import TimestampField
+from blob.utils.customFields import TimestampField
 from apps.users.serializers import UserGetProfileSerializer
 
 
@@ -111,3 +111,13 @@ class UserOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('buyer', 'prompt', 'creator', 'price', 'created_at')
+
+
+class PromptLikeCreateSerializer(serializers.ModelSerializer):
+    sender = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    receiver = serializers.PrimaryKeyRelatedField(queryset=Prompt.objects.all())
+    creation_date = TimestampField(required=False)
+
+    class Meta:
+        model = PromptLike
+        fields = '__all__'

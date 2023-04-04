@@ -10,7 +10,7 @@ from django.db.models import QuerySet
 
 from apps.users.dynamic_preferences_registry import WithdrawPercentage
 
-HOST = 'prompt-mkt.com/'
+HOST = 'blob.com/'
 REF_PERCANTAGE = 0.05
 
 

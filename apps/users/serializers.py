@@ -1,11 +1,10 @@
-from prompt_mkt.utils.customFields import TimestampField
-from prompt_mkt.utils.func import create_path_file
-from .models import User
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from apps.shop.models import Prompt, ModelCategory
+from blob.utils.customFields import TimestampField
+from .models import User, Like, Subscription
 
 
 class CustomModelCategorySerializer(serializers.ModelSerializer):
@@ -44,7 +43,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-
     def get_serializer_context(self):
         return {'request': self.request}
 
@@ -70,6 +68,7 @@ class UserSettingsSerializer(serializers.ModelSerializer):
             'following_users_new_prompts', 'hide_categories', 'hide_tone_style', 'hide_fast_prompt'
         )
 
+
 class CustomUserSerializer(serializers.ModelSerializer):
     favorite_prompts = serializers.SerializerMethodField()
     joined_date = TimestampField()
@@ -81,8 +80,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'username', 'email', 'first_name', 'last_name', 'avatar', 'background_photo', 'social_links',
             'amount_of_lookups', 'amount_of_likes', 'joined_date', 'custom_prompt_price', 'register_provider',
-            'sale_notification_emails', 'new_favorites_emails', 'new_followers_emails', 'new_messages_emails', 
-            'new_job_emails', 'new_review_emails', 'new_credits_emails', 'review_reminder_emails', 
+            'sale_notification_emails', 'new_favorites_emails', 'new_followers_emails', 'new_messages_emails',
+            'new_job_emails', 'new_review_emails', 'new_credits_emails', 'review_reminder_emails',
             'following_users_new_prompts', 'favorite_prompts', 'hide_categories', 'hide_tone_style', 'hide_fast_prompt'
         )
 
@@ -113,7 +112,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_most_popular_prompts(self, obj):
         return CustomPromptSerializer(
-            obj.prompt_creator.order_by('-amount_of_lookups'), many=True, context={'request': self.context.get('request')}
+            obj.prompt_creator.order_by('-amount_of_lookups'), many=True,
+            context={'request': self.context.get('request')}
         ).data
 
     def get_newest_prompts(self, obj):
@@ -136,7 +136,6 @@ class UserGetProfileSerializer(serializers.ModelSerializer):
             'amount_of_likes',
             'amount_of_sells',
         )
-
 
 
 class GoogleUserSerializer(serializers.Serializer):
@@ -198,3 +197,32 @@ class UserPartialSerializer(serializers.ModelSerializer):
             'hide_tone_style',
             'hide_fast_prompt',
         )
+
+
+class LikeCreateSerializer(serializers.ModelSerializer):
+    sender = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    receiver = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    creation_date = TimestampField(required=False)
+
+    class Meta:
+        model = Like
+        fields = '__all__'
+
+
+class SubscriptionCreateSerializer(serializers.ModelSerializer):
+    sender = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    receiver = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    creation_date = TimestampField(required=False)
+
+    class Meta:
+        model = Subscription
+        fields = '__all__'
+
+
+class SubscriptionsGetSerializer(serializers.ModelSerializer):
+    sender = UserGetProfileSerializer()
+    receiver = UserGetProfileSerializer()
+
+    class Meta:
+        model = Subscription
+        fields = '__all__'

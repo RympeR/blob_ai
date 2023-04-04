@@ -12,4 +12,9 @@ urlpatterns = [
     path('orders/', views.UserOrdersView.as_view(), name='user_orders'),
     path('create-attachment/', views.CreateAttachmentView.as_view(), name='create_attachment'),
     path('create-prompt-tag/', views.CreateTagView.as_view(), name='create_prompt_tag'),
+    path('create-prompt-like/', views.CreatePromptLikeView.as_view(), name='create_prompt_like'),
+    path('delete-prompt-like/<int:pk>', views.DeletePromptLikeView.as_view(), name='delete_prompt_like'),
+    path('update-prompt-lookups/', views.UpdatePromptLookups.as_view(), name='update_user_lookups'),
+    path('generate-payment-widget/', views.GeneratePaymentWidget.as_view(), name='generate_payment_widget'),
+    path('finish-order/', views.FinishOrder.as_view(), name='finish_order'),
 ]

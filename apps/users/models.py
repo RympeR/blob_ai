@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Count
@@ -95,6 +97,7 @@ class User(AbstractUser):
 class Like(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_by')
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.sender.username} likes {self.receiver.username}'
@@ -107,6 +110,7 @@ class Like(models.Model):
 class Subscription(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriptions')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscribers')
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.sender.username} subscribed to {self.receiver.username}'

@@ -48,9 +48,9 @@ services:
     image: postgres:latest
     container_name: dbcontainer
     environment:
-      POSTGRES_DB: prompt_mkt
-      POSTGRES_USER: prompt_mkt_dev
-      POSTGRES_PASSWORD: prompt_mkt_dev
+      POSTGRES_DB: blob
+      POSTGRES_USER: blob_dev
+      POSTGRES_PASSWORD: blob_dev
     networks:
       - backend
     expose:

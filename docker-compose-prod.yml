@@ -4,7 +4,7 @@ services:
   web:
     build: .
     container_name: djangocontainer
-    command: bash -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 prompt_mkt.asgi:application"
+    command: bash -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 blob.asgi:application"
     volumes:
       - .:/app
     depends_on:
@@ -42,9 +42,9 @@ services:
     image: postgres:latest
     container_name: dbcontainer
     environment:
-      POSTGRES_DB: prompt_mkt
-      POSTGRES_USER: prompt_mkt_dev
-      POSTGRES_PASSWORD: prompt_mkt_dev
+      POSTGRES_DB: blob
+      POSTGRES_USER: blob_dev
+      POSTGRES_PASSWORD: blob_dev
     networks:
       - backend
     expose:
