@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    container_name: djangocontainer
+    command: bash -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 prompt_mkt.asgi:application"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - backend
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app
+    configs:
+      - source: nginx_conf
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    networks:
+      - backend
+    expose:
+      - "6379"
+
+  db:
+    image: postgres:latest
+    container_name: dbcontainer
+    environment:
+      POSTGRES_DB: prompt_mkt
+      POSTGRES_USER: prompt_mkt_dev
+      POSTGRES_PASSWORD: prompt_mkt_dev
+    networks:
+      - backend
+    expose:
+      - "5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+
+networks:
+  backend:
+configs:
+  nginx_conf:
+    file: configs/blob.conf
