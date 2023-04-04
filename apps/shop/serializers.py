@@ -26,7 +26,7 @@ class AttachmentSerializer(serializers.ModelSerializer):
 class AttachmentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attachment
-        fields = 'file_type', '_file'
+        fields = 'id', 'file_type', '_file'
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -88,7 +88,7 @@ class MarketplacePromptSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prompt
-        fields = ('name', 'model_category', 'category', 'image')
+        fields = ('id', 'name', 'model_category', 'category', 'image')
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -99,7 +99,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('buyer', 'prompt', 'creator', 'price', 'created_at')
+        fields = ('id', 'buyer', 'prompt', 'creator', 'price', 'created_at')
 
 
 class UserOrderSerializer(serializers.ModelSerializer):
@@ -110,7 +110,7 @@ class UserOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('buyer', 'prompt', 'creator', 'price', 'created_at')
+        fields = ('id', 'buyer', 'prompt', 'creator', 'price', 'created_at')
 
 
 class PromptLikeCreateSerializer(serializers.ModelSerializer):

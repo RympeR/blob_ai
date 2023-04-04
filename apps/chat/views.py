@@ -1,25 +1,16 @@
-from blob.utils.customFilters import UserFilter
-from blob.utils.default_responses import (api_block_by_policy_451,
-                                          api_locked_423, api_not_found_404,
-                                          api_used_226, api_bad_request_400)
-from django.db.models import Subquery
+import requests
 from django.shortcuts import get_object_or_404, render
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.parsers import (FileUploadParser, FormParser, JSONParser,
                                     MultiPartParser)
 from rest_framework.response import Response
-from rest_framework import generics, permissions
-
-from apps.users.models import ChatSubscription, chat_sub_checker
-from apps.users.serializers import (UserIdRetrieveSeriliazer,
-                                    UserShortChatRetrieveSeriliazer,
-                                    UserShortRetrieveSeriliazer)
 from rest_framework.views import APIView
-from .models import *
+
+from apps.users.serializers import UserGetProfileSerializer
+from blob.utils.default_responses import (api_used_226, api_bad_request_400)
 from .serializers import *
-import requests
 
 
 class RoomCreateAPI(generics.CreateAPIView):
@@ -49,7 +40,7 @@ class RoomRetrieveAPI(generics.RetrieveAPIView):
 
 class RoomRetrieveUsersAPI(generics.GenericAPIView):
     queryset = Room.objects.all()
-    serializer_class = UserShortChatRetrieveSeriliazer
+    serializer_class = UserGetProfileSerializer
 
     def get(self, request, pk):
         room = Room.objects.get(pk=pk)
@@ -57,13 +48,8 @@ class RoomRetrieveUsersAPI(generics.GenericAPIView):
         invited_qs = room.invited.all()
         invited = self.serializer_class(
             instance=[*invited_qs, room.creator], many=True).data
-        unfinished_subscriptions = ChatSubscription.objects.filter(
-            target=user, finished=False).exclude(target__in=invited_qs)
 
-        qs_possible = User.objects.filter(
-            pk__in=Subquery(unfinished_subscriptions.values_list(
-                'source__pk', flat=True))
-        ).exclude(username=user.username)
+        qs_possible = User.objects.exclude(username=user.username)
 
         all_possible = self.serializer_class(
             instance=qs_possible, many=True).data
@@ -168,7 +154,7 @@ class GetChatMessages(GenericAPIView):
                 {
                     "id": obj.pk,
                     "room_id": obj.room.pk,
-                    "user": UserShortChatRetrieveSeriliazer(instance=obj.user).data,
+                    "user": UserGetProfileSerializer(instance=obj.user).data,
                     "text": obj.text,
                     "attachments": attachments_info,
                     "date": obj.date.timestamp(),
@@ -194,7 +180,6 @@ class InviteUserAPI(GenericAPIView, UpdateModelMixin):
             self.get_object().invited.set(user_list)
             self.get_object().save()
         return self.partial_update(request, *args, **kwargs)
-
 
 
 class ChatPartialUpdateAPI(generics.UpdateAPIView):
@@ -274,10 +259,10 @@ class GetDialogs(GenericAPIView):
                 {
                     "room": {
                         "id": room_obj['room'].id,
-                        "user": UserShortRetrieveSeriliazer(
+                        "user": UserGetProfileSerializer(
                             instance=user_obj,
                             context={'request': request}
-                        ).data if user_obj else UserShortRetrieveSeriliazer(
+                        ).data if user_obj else UserGetProfileSerializer(
                             instance=room_obj['room'].creator,
                             context={'request': request}
                         ).data,
