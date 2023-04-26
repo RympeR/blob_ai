@@ -2,9 +2,12 @@ version: '3.9'
 
 services:
   web:
-    build: .
+    build:
+        context: .
+        dockerfile: Dockerfile.prod
     container_name: djangocontainer
-    command: bash -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 blob.asgi:application"
+    image: rymper/blob-ai:latest
+    command: bash -c "(cd /app && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py collectstatic --no-input && daphne -b 0.0.0.0 -p 8000 prompt_mkt.asgi:application)"
     volumes:
       - .:/app
     depends_on:
@@ -39,12 +42,13 @@ services:
       - "6379"
 
   db:
-    image: postgres:latest
+    image: postgres:15-alpine
     container_name: dbcontainer
     environment:
       POSTGRES_DB: blob
       POSTGRES_USER: blob_dev
       POSTGRES_PASSWORD: blob_dev
+      POSTGRES_INITDB_ARGS: "--auth-host=md5 --auth-local=md5"
     networks:
       - backend
     expose:

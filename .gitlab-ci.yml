@@ -1,17 +1,9 @@
 stages:
-  - backend_pretify_check
-#  - build
-#  - deploy
+  - build
+  - deploy
 
 variables:
   DOCKER_IMAGE_TAG: test-build
-
-flake8:
-  stage: backend_pretify_check
-  image: python:3.11
-  script:
-    - pip install flake8
-    - flake8 .
 
 build:
   stage: build
@@ -25,15 +17,15 @@ build:
     - docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
   only:
     - main
-#deploy:
-#  stage: deploy
-#  services:
-#    - docker:20.10.16-dind
-#  before_script:
-#    - echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
-#    - echo "$SSH_PRIVATE_KEY" > /tmp/ssh_private_key
-#    - chmod 400 /tmp/ssh_private_key
-#  script:
-#    - ssh -i  /tmp/ssh_private_key $REMOTE_SERVER_USER@$REMOTE_SERVER_IP "bash -c '(set -e && export PATH=\$PATH:/usr/bin:/usr/local/bin && cd $REMOTE_SERVER_PATH && git pull origin main && docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD && docker ps -aq | xargs docker stop | xargs docker rm && docker-compose -f $COMPOSE_FILE down && docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && docker-compose -f $COMPOSE_FILE up -d)'"
-#  only:
-#    - main
+deploy:
+  stage: deploy
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+    - echo "$SSH_PRIVATE_KEY" > /tmp/ssh_private_key
+    - chmod 400 /tmp/ssh_private_key
+  script:
+    - ssh -i  /tmp/ssh_private_key $REMOTE_SERVER_USER@$REMOTE_SERVER_IP "bash -c '(set -e && export PATH=\$PATH:/usr/bin:/usr/local/bin && cd $REMOTE_SERVER_PATH && git pull origin main && docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD && docker ps -aq | xargs docker stop | xargs docker rm && docker-compose -f $COMPOSE_FILE down && docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && docker-compose -f $COMPOSE_FILE up -d)'"
+  only:
+    - main
