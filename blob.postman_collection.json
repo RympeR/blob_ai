@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "7e4ffff1-11b4-4668-9f16-bc974323bb7a",
-		"name": "prompt-mkt",
+		"name": "blob",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12799575"
 	},
@@ -46,9 +46,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{prompt_host}}{{user_prefix}}/login/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/login/",
 									"host": [
-										"{{prompt_host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"login",
@@ -86,7 +86,7 @@
 										},
 										{
 											"key": "email",
-											"value": "rymper2@gmail.com",
+											"value": "rymper253@gmail.com",
 											"type": "text"
 										},
 										{
@@ -97,9 +97,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{prompt_host}}{{user_prefix}}/register/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/register/",
 									"host": [
-										"{{prompt_host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"register",
@@ -129,9 +129,9 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/logout/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/logout/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"logout",
@@ -147,9 +147,9 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/google-signup-callback/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/google-signup-callback/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"google-signup-callback",
@@ -263,9 +263,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/profile/rymper",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/profile/rymper",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"profile",
@@ -287,9 +287,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/profile/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/profile/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"profile",
@@ -311,9 +311,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/settings/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/settings/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"settings",
@@ -350,9 +350,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/partial-update/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/partial-update/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"partial-update",
@@ -374,9 +374,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/update-user-lookups/?username=root2",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/update-user-lookups/?username=root2",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"update-user-lookups",
@@ -419,9 +419,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/create-user-like/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/create-user-like/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"create-user-like",
@@ -458,9 +458,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/delete-user-like/root",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/delete-user-like/root",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"delete-user-like",
@@ -502,9 +502,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/subscribe/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/subscribe/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"subscribe",
@@ -526,9 +526,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/get-my-subscribers/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/get-my-subscribers/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"get-my-subscribers",
@@ -550,9 +550,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/get-my-subscriptions/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/get-my-subscriptions/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"get-my-subscriptions",
@@ -578,9 +578,9 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/unsubscribe/root",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/unsubscribe/root",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"unsubscribe",
@@ -637,9 +637,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{host}}{{shop_prefix}}/orders/create/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/orders/create/",
 									"host": [
-										"{{host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"orders",
@@ -662,9 +662,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{host}}{{shop_prefix}}/orders/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/orders/",
 									"host": [
-										"{{host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"orders",
@@ -760,9 +760,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{host}}{{shop_prefix}}/finish-order/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/finish-order/",
 									"host": [
-										"{{host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"finish-order",
@@ -783,9 +783,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}{{shop_prefix}}/main-page/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/main-page/",
 									"host": [
-										"{{host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"main-page",
@@ -876,9 +876,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{host}}{{user_prefix}}/favorite/",
+									"raw": "{{blob_host}}{{blob_user_prefix}}/favorite/",
 									"host": [
-										"{{host}}{{user_prefix}}"
+										"{{blob_host}}{{blob_user_prefix}}"
 									],
 									"path": [
 										"favorite",
@@ -915,7 +915,7 @@
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/Users/raskovgeorgij/Desktop/test.png"
+											"src": "/C:/Users/georg/Desktop/Opera Снимок_2023-04-23_170022_127.0.0.1.png"
 										},
 										{
 											"key": "attachments",
@@ -975,9 +975,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/create-prompt/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/create-prompt/",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"create-prompt",
@@ -999,9 +999,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/prompt/1",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/prompt/1",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"prompt",
@@ -1038,9 +1038,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/create-attachment/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/create-attachment/",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"create-attachment",
@@ -1077,9 +1077,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/create-prompt-like/",
+									"raw": "{{blob_host}}{{blob_prefix}}/create-prompt-like/",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_prefix}}"
 									],
 									"path": [
 										"create-prompt-like",
@@ -1116,9 +1116,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/delete-prompt-like/1",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/delete-prompt-like/1",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"delete-prompt-like",
@@ -1140,9 +1140,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/update-prompt-lookups/?pk=2",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/update-prompt-lookups/?pk=2",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"update-prompt-lookups",
@@ -1190,9 +1190,9 @@
 									]
 								},
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/create-prompt-tag/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/create-prompt-tag/",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"create-prompt-tag",
@@ -1208,9 +1208,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/get-tags/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/get-tags/",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"get-tags",
@@ -1226,9 +1226,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/get-categories/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/get-categories/",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"get-categories",
@@ -1244,9 +1244,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/get-model-categories/",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/get-model-categories/",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"get-model-categories",
@@ -1262,9 +1262,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{prompt_host}}{{shop_prefix}}/get-info-for-prompt-creation/1",
+									"raw": "{{blob_host}}{{blob_shop_prefix}}/get-info-for-prompt-creation/1",
 									"host": [
-										"{{prompt_host}}{{shop_prefix}}"
+										"{{blob_host}}{{blob_shop_prefix}}"
 									],
 									"path": [
 										"get-info-for-prompt-creation",
@@ -1275,6 +1275,70 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Get result prompt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"style\": \"Offcical\",\r\n    \"tone\" : \"Offcical\",\r\n    \"result_amount\" : 5,\r\n    \"text\" : \"Offcical\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{blob_host}}{{blob_shop_prefix}}/get-result-prompt/",
+							"host": [
+								"{{blob_host}}{{blob_shop_prefix}}"
+							],
+							"path": [
+								"get-result-prompt",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Get favourites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{blob_host}}{{blob_chat_prefix}}/get-favorites/",
+							"host": [
+								"{{blob_host}}{{blob_chat_prefix}}"
+							],
+							"path": [
+								"get-favorites",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add to bookmark",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{blob_host}}{{",
+							"host": [
+								"{{blob_host}}{{"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -1316,18 +1380,23 @@
 	],
 	"variable": [
 		{
-			"key": "prompt_host",
+			"key": "blob_host",
 			"value": "127.0.1:8000",
 			"type": "string"
 		},
 		{
-			"key": "user_prefix",
+			"key": "blob_user_prefix",
 			"value": "/api/user",
 			"type": "string"
 		},
 		{
-			"key": "shop_prefix",
+			"key": "blob_shop_prefix",
 			"value": "/api/shop",
+			"type": "string"
+		},
+		{
+			"key": "blob_chat_prefix",
+			"value": "/api/chat",
 			"type": "string"
 		}
 	]
