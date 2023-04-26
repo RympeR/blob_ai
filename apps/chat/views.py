@@ -296,10 +296,13 @@ class CreateBookmark(generics.CreateAPIView):
         return super().create(request, *args, **kwargs)
 
 
+
 class GetUserBookmarks(generics.ListAPIView):
-    queryset = Bookmark.objects.all()
     serializer_class = BookmarkGetSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
     def get_queryset(self):
         return Bookmark.objects.filter(user=self.request.user)
@@ -309,17 +312,22 @@ class CreateFavourite(generics.CreateAPIView):
     queryset = Favourite.objects.all()
     serializer_class = BookmarkCreateSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
 
 class GetUserFavorites(generics.ListAPIView):
-    queryset = Favourite.objects.all()
     serializer_class = BookmarkGetSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
     def get_queryset(self):
-        return Bookmark.objects.filter(user=self.request.user)
+        return Favourite.objects.filter(user=self.request.user)
 
 
 class ChatGPTView(APIView):

@@ -24,7 +24,7 @@ class ProfileView(generics.RetrieveAPIView):
 
 
 class UserRegisterView(generics.GenericAPIView):
-    serializer_class = UserRegisterSerializer
+    serializer_class = CustomUserSerializer
 
     def post(self, request):
         try:
@@ -39,8 +39,9 @@ class UserRegisterView(generics.GenericAPIView):
                 user.set_password(request.data['password'])
                 user.save()
                 token, _ = Token.objects.get_or_create(user=user)
-            return api_created_201({"auth_token": token.key})
-        except Exception:
+            return api_created_201({"auth_token": token.key, "user": self.serializer_class(user).data})
+        except Exception as e:
+            print(e)
             return api_block_by_policy_451({"info": "already exists"})
 
 
@@ -52,7 +53,7 @@ class UserLoginView(views.APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'auth_token': token.key}, status=status.HTTP_200_OK)
+        return Response({'auth_token': token.key, "user": CustomUserSerializer(user).data}, status=status.HTTP_200_OK)
 
 
 class MarkFavourite(generics.GenericAPIView):
@@ -97,7 +98,6 @@ class SettingsView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
-
 class GoogleRegisterView(APIView):
 
     def post(self, request):
@@ -111,18 +111,24 @@ class GoogleRegisterView(APIView):
         if g_name and len(g_name.split(" ")) == 1:
             username = g_name
         else:
-            username = ''.join(g_name.split(" ")).lower()
-        if User.objects.filter(email=g_email).first():
-            return api_bad_request_400({'status': 'already exists email'})
-        user = User.create_user(
-            g_email,
-            g_email,
+            username = '_'.join(g_name.split(" ")).lower()
+        user = User.objects.filter(email=g_email).first()
+        if user and user.register_provider == 'google':
+            return api_bad_request_400({'status': 'already exists google account - log in'})
+        if user and user.register_provider != 'google':
+            return api_bad_request_400({'status': 'account registered with email'})
+        user, created = User.objects.get_or_create(
+            email=g_email,
             username=username,
-            google_id=g_user_id,
             register_provider='google'
         )
+        if not created:
+            return api_bad_request_400({'status': 'account registered with email'})
+        else:
+            user.set_password(g_email)
+            user.save()
         token, _ = Token.objects.get_or_create(user=user)
-        return api_created_201({'token': token.key})
+        return api_created_201({'auth_token': token.key, "user": CustomUserSerializer(user).data})
 
 
 class GoogleLoginView(APIView):
@@ -134,10 +140,13 @@ class GoogleLoginView(APIView):
 
         g_email = data['profileObj']['email']
         user = User.objects.filter(email=g_email).first()
-        if not user or user.register_provider != 'google':
+        if not user:
+            return api_bad_request_400({'status': 'user is missing'})
+        if user and user.register_provider != 'google':
             return api_bad_request_400({'status': 'already exists email'})
         token, _ = Token.objects.get_or_create(user=user)
-        return api_accepted_202({'token': token.key})
+        return api_accepted_202({'auth_token': token.key, "user": CustomUserSerializer(user).data})
+
 
 
 class CreateSubscriptionsView(generics.CreateAPIView):

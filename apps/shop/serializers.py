@@ -11,6 +11,30 @@ class ModelCategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'icon')
 
 
+class ModelCategoryCreatePromptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelCategory
+        fields = ('id', 'name', 'icon', 'custom_parameters')
+
+
+class ModelCategoryGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelCategory
+        fields = ('id', 'name')
+
+
+class CategoryGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name')
+
+
+class TagGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('id', 'name')
+
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -40,6 +64,8 @@ class PromptSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True)
     ratings = RatingSerializer(many=True)
     attachments = AttachmentSerializer(many=True)
+    purchased = serializers.SerializerMethodField()
+    categories = CategoryGetSerializer(many=True)
 
     class Meta:
         model = Prompt
@@ -48,8 +74,23 @@ class PromptSerializer(serializers.ModelSerializer):
             'description', 'token_size', 'example_input',
             'example_output', 'user', 'review_amount',
             'creation_date', 'tags', 'amount_of_lookups', 'ratings',
-            'attachments', 'prompt_template', 'instructions'
+            'attachments', 'prompt_template', 'instructions', 'purchased', 'categories'
         )
+
+    def get_purchased(self, obj):
+        user = self.context.get('request').user
+        if user.is_authenticated:
+            return Order.objects.filter(
+                buyer=user, prompt=obj
+            ).exists() or Order.objects.filter(creator=user, prompt=obj).exists()
+        return False
+
+
+class MainPageSerializer(serializers.Serializer):
+    featured_prompts = PromptSerializer(many=True)
+    new_prompts = PromptSerializer(many=True)
+    top_prompts = PromptSerializer(many=True)
+
 
 
 class PromptCreateSerializer(serializers.ModelSerializer):
@@ -59,6 +100,7 @@ class PromptCreateSerializer(serializers.ModelSerializer):
     attachments = serializers.PrimaryKeyRelatedField(many=True, queryset=Attachment.objects.all(), required=False)
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     image = serializers.ImageField()
+    custom_parameters = serializers.JSONField(required=False)
 
     class Meta:
         model = Prompt
@@ -66,7 +108,7 @@ class PromptCreateSerializer(serializers.ModelSerializer):
             'id', 'image', 'model_category', 'price', 'name',
             'description', 'token_size', 'example_input',
             'example_output', 'user', 'categories', 'sell_amount',
-            'tags', 'attachments', 'prompt_template', 'instructions'
+            'tags', 'attachments', 'prompt_template', 'instructions', 'custom_parameters'
         )
 
 

@@ -17,6 +17,7 @@ RUN echo "deb http://deb.debian.org/debian testing main" >> /etc/apt/sources.lis
 RUN pip install --upgrade pip
 COPY requirements.txt /app/requirements.txt
 RUN pip install wheel
+RUN pip install hupper
 RUN pip install -r /app/requirements.txt
 COPY . /app
 WORKDIR /app

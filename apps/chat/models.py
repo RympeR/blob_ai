@@ -1,7 +1,6 @@
 from blob.utils.func import room_logo
 from django.db import models
 from django.db.models.signals import post_save
-from unixtimestampfield.fields import UnixTimeStampField
 
 from apps.shop.models import Attachment
 from apps.users.models import User
@@ -11,7 +10,7 @@ class Room(models.Model):
     creator = models.ForeignKey(
         User, related_name='user_creator', on_delete=models.DO_NOTHING)
     invited = models.ManyToManyField(User, related_name='invited_users')
-    date = UnixTimeStampField(
+    date = models.DateTimeField(
         "Дата создания", auto_now_add=True, null=True, blank=True)
     logo = models.ImageField(
         upload_to=room_logo,
@@ -49,7 +48,7 @@ class Chat(models.Model):
     text = models.TextField("Message", max_length=500, null=True, blank=True)
     attachment = models.ManyToManyField(
         Attachment, related_name='chat_attachment', blank=True, verbose_name='Attachments')
-    date = UnixTimeStampField(
+    date = models.DateTimeField(
         "Send datetime", auto_now_add=True, null=True, blank=True)
 
     def __str__(self):

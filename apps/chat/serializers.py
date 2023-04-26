@@ -194,6 +194,10 @@ class BookmarkCreateSerializer(serializers.ModelSerializer):
         model = Bookmark
         fields = '__all__'
 
+    def validate(self, attrs):
+        request = self.context.get('request')
+        attrs['user'] = request.user
+        return attrs
 
 class BookmarkGetSerializer(serializers.ModelSerializer):
 

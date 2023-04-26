@@ -18,7 +18,7 @@ from .views import (
     index,
     room,
     CreateBookmark,
-    GetUserBookmarks, GetUserFavorites, CreateFavourite,
+    GetUserBookmarks, GetUserBookmarks, CreateFavourite,
 )
 
 urlpatterns = [
@@ -45,5 +45,5 @@ urlpatterns = [
     path('create-bookmark/', CreateBookmark.as_view(), name='create_bookmark'),
     path('get-bookmarks/', GetUserBookmarks.as_view(), name='get_user_bookmark'),
     path('create-favourite/', CreateFavourite.as_view(), name='create_bookmark'),
-    path('get-favorites/', GetUserFavorites.as_view(), name='get_user_bookmark'),
+    path('get-favorites/', GetUserBookmarks.as_view(), name='get_user_bookmark'),
 ]

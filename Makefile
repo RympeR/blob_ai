@@ -12,6 +12,9 @@ build:
 create-super-user:
 	$(COMMAND) createsuperuser
 
+collectstatic:
+	$(COMMAND) collectstatic --no-input
+
 run:
 	docker-compose up
 
@@ -30,18 +33,13 @@ down:
 database-initial-migrations:
 	$(COMMAND) makemigrations users
 	$(COMMAND) makemigrations shop
-	$(COMMAND) makemigrations courses
-	$(COMMAND) makemigrations blog
-	$(COMMAND) makemigrations settings-info
+	$(COMMAND) makemigrations chat
 	$(COMMAND) migrate
 
 local-database-initial-migrations:
-	$(LOCAL) makemigrations users
-	$(LOCAL) makemigrations shop
-	$(LOCAL) makemigrations courses
-	$(LOCAL) makemigrations blog
-	$(LOCAL) makemigrations settings_info
-	$(LOCAL) makemigrations chat
+	$(COMMAND) makemigrations users
+	$(COMMAND) makemigrations shop
+	$(COMMAND) makemigrations chat
 	$(LOCAL) migrate
 
 database-migrations:
