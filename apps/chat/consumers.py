@@ -6,8 +6,8 @@ from channels.generic.websocket import WebsocketConsumer
 
 from apps.blog.models import Attachment
 from apps.users.models import User, chat_sub_checker
-from apps.users.serializers import (UserShortChatRetrieveSeriliazer,
-                                    UserShortSocketRetrieveSeriliazer)
+from apps.users.serializers import (UserShortChatRetrieveSerializer,
+                                    UserShortSocketRetrieveSerializer)
 from django.db.models import Q
 
 from .models import Chat, Room, UserMessage
@@ -66,7 +66,7 @@ class ChatConsumer(WebsocketConsumer):
                             'text': message,
                             'date': chat.date.timestamp(),
                             'id': chat.pk,
-                            'user': UserShortChatRetrieveSeriliazer(
+                            'user': UserShortChatRetrieveSerializer(
                                 instance=user).data,
                             'room_id': room.pk,
                         }
@@ -103,7 +103,7 @@ class ChatConsumer(WebsocketConsumer):
                         'text': message,
                         'date': chat.date.timestamp(),
                         'id': chat.pk,
-                        'user': UserShortChatRetrieveSeriliazer(
+                        'user': UserShortChatRetrieveSerializer(
                             instance=user).data,
                         'room_id': room.pk,
                     }

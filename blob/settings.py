@@ -23,8 +23,8 @@ DEBUG = os.environ.get('DJANGO_DEBUG', True)
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = [
-    'djangocontainer:8000',
-    'djangocontainer',
+    'blob_djangocontainer:8000',
+    'blob_djangocontainer',
     'localhost',
     '127.0.0.1',
     'blob.com',
@@ -109,7 +109,7 @@ DATABASES = {
         'NAME': 'blob',
         'USER': 'blob_dev',
         'PASSWORD': 'blob_dev',
-        'HOST': 'dbcontainer',
+        'HOST': 'blob_dbcontainer',
         'PORT': '5432',
     }
 }
@@ -119,7 +119,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": ['redis://rediscontainer:6379/1'],
+            "hosts": ['redis://blob_rediscontainer:6379/1'],
         },
     },
 }
@@ -128,7 +128,7 @@ CHANNEL_LAYERS = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": 'redis://rediscontainer:6379/1',
+        "LOCATION": 'redis://blob_rediscontainer:6379/1',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }

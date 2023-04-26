@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 
 from apps.shop.models import Prompt, ModelCategory
 from blob.utils.customFields import TimestampField
+from blob.utils.func import get_online
 from .models import User, Like, Subscription
 
 
@@ -229,3 +230,39 @@ class SubscriptionsGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = '__all__'
+
+
+class UserShortChatRetrieveSerializer:
+    avatar = serializers.ImageField(use_url=True)
+    background_photo = serializers.ImageField(use_url=True)
+    is_online = serializers.SerializerMethodField()
+
+    def get_is_online(self, user: User):
+        return get_online(self, user)
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'avatar',
+            'background_photo',
+            'is_online',
+        )
+
+
+class UserShortSocketRetrieveSerializer:
+    avatar = serializers.ImageField(use_url=True)
+    is_online = serializers.SerializerMethodField()
+
+    def get_is_online(self, user: User):
+        return get_online(self, user)
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'avatar',
+            'is_online',
+        )

@@ -18,7 +18,7 @@ from .views import (
     index,
     room,
     CreateBookmark,
-    GetUserBookmarks,
+    GetUserBookmarks, GetUserFavorites, CreateFavourite,
 )
 
 urlpatterns = [
@@ -44,4 +44,6 @@ urlpatterns = [
          GetUnreadedMessagesAmount.as_view(), name='get-unreaded-messages-amount'),
     path('create-bookmark/', CreateBookmark.as_view(), name='create_bookmark'),
     path('get-bookmarks/', GetUserBookmarks.as_view(), name='get_user_bookmark'),
+    path('create-favourite/', CreateFavourite.as_view(), name='create_bookmark'),
+    path('get-favorites/', GetUserFavorites.as_view(), name='get_user_bookmark'),
 ]

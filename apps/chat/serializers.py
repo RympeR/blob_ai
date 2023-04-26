@@ -6,17 +6,17 @@ from rest_framework import serializers
 from apps.shop.models import Attachment
 from apps.shop.serializers import AttachmentSerializer
 from apps.users.models import User
-from apps.users.serializers import (UserShortChatRetrieveSeriliazer,
-                                    UserShortRetrieveSeriliazer,
-                                    UserShortSocketRetrieveSeriliazer)
+from apps.users.serializers import (UserShortChatRetrieveSerializer,
+                                    UserProfileSerializer,
+                                    UserShortSocketRetrieveSerializer)
 
-from .models import Chat, Room, UserMessage, Bookmark
+from .models import Chat, Room, UserMessage, Bookmark, Favourite
 
 
 class RoomGetSerializer(serializers.ModelSerializer):
 
-    creator = UserShortRetrieveSeriliazer()
-    invited = UserShortRetrieveSeriliazer(many=True)
+    creator = UserProfileSerializer()
+    invited = UserProfileSerializer(many=True)
     date = TimestampField(required=False)
     logo = serializers.SerializerMethodField()
 
@@ -32,14 +32,14 @@ class RoomGetSerializer(serializers.ModelSerializer):
 
 class RoomSocketSerializer(serializers.ModelSerializer):
 
-    creator = UserShortSocketRetrieveSeriliazer()
+    creator = UserShortSocketRetrieveSerializer()
     invited = serializers.SerializerMethodField()
     date = TimestampField(required=False)
     logo = serializers.SerializerMethodField()
 
     def get_invited(self, room: Room):
         if len(room.invited.all()) == 1:
-            return UserShortSocketRetrieveSeriliazer(instance=room.invited.all().first()).data
+            return UserShortSocketRetrieveSerializer(instance=room.invited.all().first()).data
         else:
             return len(room.invited.all())
 
@@ -100,7 +100,7 @@ class RoomUpdateSerializer(serializers.ModelSerializer):
 class ChatGetSerializer(serializers.ModelSerializer):
 
     room = RoomGetSerializer()
-    user = UserShortChatRetrieveSeriliazer()
+    user = UserShortChatRetrieveSerializer()
     attachment = AttachmentSerializer(many=True)
     date = TimestampField(required=False)
 
@@ -138,7 +138,7 @@ class ChatPartialSerializer(serializers.ModelSerializer):
 
 class UserMessageGetSerializer(serializers.ModelSerializer):
 
-    user = UserShortRetrieveSeriliazer()
+    user = UserProfileSerializer()
     message = ChatGetSerializer()
 
     class Meta:
@@ -187,7 +187,7 @@ class RoomInviteUserSerializer(serializers.ModelSerializer):
 
 class BookmarkCreateSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    chat = serializers.PrimaryKeyRelatedField(queryset=Chat.objects.all())
+    output = serializers.CharField()
     created_date = TimestampField(required=False)
 
     class Meta:
@@ -197,10 +197,31 @@ class BookmarkCreateSerializer(serializers.ModelSerializer):
 
 class BookmarkGetSerializer(serializers.ModelSerializer):
 
-    user = UserShortRetrieveSeriliazer()
-    chat = ChatGetSerializer()
+    user = UserProfileSerializer()
+    output = serializers.CharField()
     created_date = TimestampField(required=False)
 
     class Meta:
         model = Bookmark
+        fields = '__all__'
+
+
+class FavouriteCreateSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    prompt = serializers.CharField()
+    created_date = TimestampField(required=False)
+
+    class Meta:
+        model = Favourite
+        fields = '__all__'
+
+
+class FavouriteGetSerializer(serializers.ModelSerializer):
+
+    user = UserProfileSerializer()
+    prompt = serializers.CharField()
+    created_date = TimestampField(required=False)
+
+    class Meta:
+        model = Favourite
         fields = '__all__'

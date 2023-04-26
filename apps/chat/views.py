@@ -305,6 +305,23 @@ class GetUserBookmarks(generics.ListAPIView):
         return Bookmark.objects.filter(user=self.request.user)
 
 
+class CreateFavourite(generics.CreateAPIView):
+    queryset = Favourite.objects.all()
+    serializer_class = BookmarkCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+
+
+class GetUserFavorites(generics.ListAPIView):
+    queryset = Favourite.objects.all()
+    serializer_class = BookmarkGetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user)
+
+
 class ChatGPTView(APIView):
     def post(self, request):
         # Replace 'your_openai_api_key' with your actual API key

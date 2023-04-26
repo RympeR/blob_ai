@@ -1,11 +1,10 @@
-from core.utils.func import room_logo
+from blob.utils.func import room_logo
 from django.db import models
 from django.db.models.signals import post_save
 from unixtimestampfield.fields import UnixTimeStampField
 
-from apps.blog.models import Attachment
+from apps.shop.models import Attachment
 from apps.users.models import User
-from core.utils.func import return_file_url
 
 
 class Room(models.Model):
@@ -82,8 +81,7 @@ class UserMessage(models.Model):
 class Bookmark(models.Model):
     user = models.ForeignKey(User, related_name='user_bookmark',
                              verbose_name='User', on_delete=models.CASCADE)
-    chat = models.ForeignKey(Chat, related_name='message_bookmark',
-                                verbose_name='Message', on_delete=models.CASCADE)
+    output = models.TextField("Output", max_length=500, null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -91,7 +89,21 @@ class Bookmark(models.Model):
         verbose_name_plural = 'Bookmarks'
 
     def __str__(self):
-        return f"{self.chat}-{self.user}"
+        return f"{self.output}-{self.user}"
+
+
+class Favourite(models.Model):
+    user = models.ForeignKey(User, related_name='user_favourite',
+                             verbose_name='User', on_delete=models.CASCADE)
+    prompt = models.TextField("Prompt", max_length=500, null=True, blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Favourite'
+        verbose_name_plural = 'Favorites'
+
+    def __str__(self):
+        return f"{self.prompt}-{self.user}"
 
 
 def create_message(sender, instance, created, **kwargs):

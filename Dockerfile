@@ -1,10 +1,10 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && apt-get install -y \
-    python3 \
+RUN echo "deb http://deb.debian.org/debian testing main" >> /etc/apt/sources.list \
+    && apt-get update && apt-get install -y -t testing \
     python3-pip \
     libpq-dev \
     libjpeg-dev \
@@ -12,12 +12,15 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     supervisor \
  && rm -rf /var/lib/apt/lists/*
+
+
 RUN pip install --upgrade pip
 COPY requirements.txt /app/requirements.txt
 RUN pip install wheel
 RUN pip install -r /app/requirements.txt
 COPY . /app
 WORKDIR /app
+
 COPY configs/blob.conf /etc/nginx/conf.d/default.conf
 COPY configs/supervisor.conf /etc/supervisor/conf.d/
 

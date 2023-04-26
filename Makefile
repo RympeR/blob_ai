@@ -2,7 +2,8 @@
 
 COMMAND = docker-compose exec web python manage.py
 PRODUCTION_COMMAND = docker-compose -f docker-compose.prod.yml exec web python manage.py
-
+MAC_FILE = docker-compose -f docker-compose-mac.yml
+LOCAL = python manage.py
 all: build run collectstatic database-setup
 
 build:
@@ -10,10 +11,17 @@ build:
 
 create-super-user:
 	$(COMMAND) createsuperuser
+
 run:
+	docker-compose up
+
+run-d:
 	docker-compose up -d
 
 run-build:
+	docker-compose up --build
+
+run-d-build:
 	docker-compose up -d --build
 
 down:
@@ -22,7 +30,19 @@ down:
 database-initial-migrations:
 	$(COMMAND) makemigrations users
 	$(COMMAND) makemigrations shop
+	$(COMMAND) makemigrations courses
+	$(COMMAND) makemigrations blog
+	$(COMMAND) makemigrations settings-info
 	$(COMMAND) migrate
+
+local-database-initial-migrations:
+	$(LOCAL) makemigrations users
+	$(LOCAL) makemigrations shop
+	$(LOCAL) makemigrations courses
+	$(LOCAL) makemigrations blog
+	$(LOCAL) makemigrations settings_info
+	$(LOCAL) makemigrations chat
+	$(LOCAL) migrate
 
 database-migrations:
 	$(COMMAND) makemigrations
@@ -54,7 +74,19 @@ production-migrate:
 	$(PRODUCTION_COMMAND) migrate --noinput
 
 mac-m1-build:
+	export DOCKER_DEFAULT_PLATFORM=linux/amd64
 	docker pull --platform linux/amd64 nginx:latest
-	docker-compose down
-	docker-compose build
-	docker-compose up -d
+	docker pull --platform linux/amd64 postgres:15-alpine
+	docker pull --platform linux/amd64 redis:latest
+	$(MAC_FILE) down
+	$(MAC_FILE) build
+	$(MAC_FILE) up
+
+mac-run:
+	$(MAC_FILE) up
+
+mac-run-db:
+	$(MAC_FILE) up db
+
+mac-restart-web:
+	$(MAC_FILE) restart web nginx
